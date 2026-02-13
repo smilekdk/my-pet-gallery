@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>펫페어 사진 셀렉 테스트</title>
+    <style>
+        :root { --primary: #3b82f6; --bg: #f8fafc; }
+        body { font-family: 'Pretendard', sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: #1e293b; }
+        header { text-align: center; margin-bottom: 30px; }
+        h1 { font-size: 1.5rem; color: #0f172a; }
+        
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); transition: transform 0.2s; position: relative; }
+        .card:active { transform: scale(0.98); }
+        
+        /* 워터마크 레이어 */
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 2rem; font-weight: 900; color: rgba(255,255,255,0.4); pointer-events: none; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); white-space: nowrap; z-index: 10; }
+        
+        img { width: 100%; height: auto; display: block; -webkit-user-drag: none; }
+        
+        .info { padding: 15px; text-align: center; }
+        .select-btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; background-color: #e2e8f0; color: #475569; }
+        .select-btn.active { background-color: var(--primary); color: white; }
+        
+        .footer-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); display: flex; justify-content: center; z-index: 100; }
+        .submit-btn { background: #1e293b; color: white; padding: 12px 40px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📸 펫페어 사진 셀렉 (테스트)</h1>
+    <p>마음에 드는 사진을 선택해 주세요.</p>
+</header>
+
+<div class="gallery">
+    <div class="card" id="photo1">
+        <div class="watermark">SMILE DONG</div>
+        <img src="https://pub-179334742305466cb7dda2d525a9a763.r2.dev/%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%9D%B4%EB%AF%B8%EC%A7%801.jpg" alt="반려견 사진">
+        <div class="info">
+            <button class="select-btn" onclick="toggleSelect('photo1')">선택하기</button>
+        </div>
+    </div>
+    </div>
+
+<div class="footer-bar">
+    <button class="submit-btn" onclick="submitSelection()">선택 완료 (보정 요청)</button>
+</div>
+
+<script>
+    let selectedCount = 0;
+
+    function toggleSelect(id) {
+        const btn = document.querySelector(`#${id} .select-btn`);
+        btn.classList.toggle('active');
+        
+        if(btn.classList.contains('active')) {
+            btn.innerText = '✅ 선택됨';
+            selectedCount++;
+        } else {
+            btn.innerText = '선택하기';
+            selectedCount--;
+        }
+    }
+
+    function submitSelection() {
+        if(selectedCount === 0) {
+            alert('사진을 최소 1장 이상 선택해 주세요!');
+        } else {
+            alert(selectedCount + '장의 사진이 선택되었습니다. (이제 Supabase 연동이 필요합니다!)');
+        }
+    }
+</script>
+
+</body>
+</html>
